@@ -22,6 +22,8 @@ def Create_Geo_File(file_dict, geo_dict):
 	# Update geometry file values
 	filedata = filedata.replace('NCHORD_W', str(geo_dict['Nchord_W']))
 	filedata = filedata.replace('NSPAN_W', str(geo_dict['Nspan_W']))
+	filedata = filedata.replace('NCHORD_HT', str(geo_dict['Nchord_HT']))
+	filedata = filedata.replace('NSPAN_HT', str(geo_dict['Nspan_HT']))
 
 	with open(new_file, 'w') as file:
 		file.write(filedata)
@@ -43,27 +45,30 @@ def Create_Run_File(file_dict, geo_dict, cond_dict, run_num):
 
 		# Define run case conditions
 		for vel in cond_dict['Velocity']:
-			fid.write('m\n')
-			fid.write('v %0.8f\n\n' % vel)
+			for mach in cond_dict['Mach']:
+				fid.write('m\n')
+				fid.write('v %0.8f\nmn %0.8f\n\n' % (vel, mach))
 
-			for alpha in cond_dict['AOA']:
-				fid.write('a a %0.8f\n' % alpha)
+				for alpha in cond_dict['AOA']:
+					fid.write('a a %0.8f\n' % alpha)
 
-				# Run and save data to file
-				fe_file = file_dict['FE_File'] + str(run_num[0]) + '.fe'
-				fid.write('x\n')
-				fid.write('fe\n%s\n' % fe_file)
+					# Run and save data to file
+					fe_file = file_dict['FE_File'] + str(run_num[0]) + '.fe'
+					fid.write('x\n')
+					fid.write('fe\n%s\n' % fe_file)
 
-				# Remove fe file before running AVL
-				try:
-					os.remove(fe_file)
-				except OSError:
-					pass
+					# Remove fe file before running AVL
+					try:
+						os.remove(fe_file)
+					except OSError:
+						pass
 
-				# Write info of run case setup
-				str_file = [str(run_num[0]), str(geo_dict['Nchord_W']), str(geo_dict['Nspan_W']), str(alpha), str(vel)]
-				file_dict['Run_Info'].writerow(str_file)
-				run_num[0] = run_num[0] + 1
+					# Write info of run case setup
+					geo_str = [str(geo_dict['Nchord_W']), str(geo_dict['Nspan_W']), str(geo_dict['Nchord_HT']), str(geo_dict['Nspan_HT'])]
+					cond_str = [str(vel), str(mach), str(alpha)]
+					str_file = [str(run_num[0])] + geo_str + cond_str
+					file_dict['Run_Info'].writerow(str_file)
+					run_num[0] = run_num[0] + 1
 
 		# Exist OPER menu
 		fid.write('\n\n\n')
@@ -111,35 +116,41 @@ def Run_AVL_File(dir_name):
 
 	# Condition Variables
 	AOA = np.linspace(-2, 2, 5)
-	Velocity = np.linspace(10, 20, 11)
-	Mach = np.linspace(0, 0.9, 10)
+	# Velocity = np.linspace(10, 20, 11)
+	# Mach = np.linspace(0, 0.9, 10)
+	Velocity = [12]
+	Mach = [0]
 
 	# Geometry Variables
 	NC_WING = [10]
 	NS_WING = [30]
+	NC_HT = [10]
+	NS_HT = [20]
 	# }
 
 	# Create file to run avl command
-	run_file = dir_name + '/Temp.run'
+	run_file = dir_name + '/AVL_Run_Case.run'
 	run_info = dir_name + '/Run_Info.csv'
 	run_num = [1]
 
 	with open(run_info, 'wb') as csvfile:
 		writer = csv.writer(csvfile, delimiter=',')
-		writer.writerow(['Run #', 'Nchord Wing', 'Nspan Wing', 'AOA', 'Velocity'])
+		writer.writerow(['Run #', 'Nchord Wing', 'Nspan Wing', 'Nchord HT', 'Nspan HT', 'Velocity', 'Mach', 'AOA'])
 
 		for NCW in NC_WING:
 			for NSW in NS_WING:
-				fe_file = dir_name + '/FE_run_'
-				file_dict = {'Run': run_file, 'Geo_Temp': geo_template, 'Geometry': geo_file, 'Mass': mass_file, 'FE_File': fe_file, 'Run_Info': writer}
-				geo_dict = {'Nchord_W': NCW, 'Nspan_W': NSW}
-				cond_dict = {'AOA': AOA, 'Velocity': Velocity}
+				for NCHT in NC_HT:
+					for NSHT in NS_HT:
+						fe_file = dir_name + '/FE_run_'
+						file_dict = {'Run': run_file, 'Geo_Temp': geo_template, 'Geometry': geo_file, 'Mass': mass_file, 'FE_File': fe_file, 'Run_Info': writer}
+						geo_dict = {'Nchord_W': NCW, 'Nspan_W': NSW, 'Nchord_HT': NCHT, 'Nspan_HT': NSHT}
+						cond_dict = {'AOA': AOA, 'Velocity': Velocity, 'Mach': Mach}
 
-				Create_Geo_File(file_dict, geo_dict)
-				Create_Run_File(file_dict, geo_dict, cond_dict, run_num)
+						Create_Geo_File(file_dict, geo_dict)
+						Create_Run_File(file_dict, geo_dict, cond_dict, run_num)
 
-				# Run AVL with input run file
-				Run_AVL_Command(run_file)
+						# Run AVL with input run file
+						Run_AVL_Command(run_file)
 
 	print("# of cases = %d" % run_num[0])
 	# Extract necessary data from AVL file to text file
@@ -150,7 +161,7 @@ def Run_AVL_File(dir_name):
 if __name__ == '__main__':
 	
 	# Create directory if not exist yet
-	dir_name = 'Test'
+	dir_name = 'Test_Old'
 	if not os.path.exists(dir_name):
 		os.makedirs(dir_name)
 
