@@ -9,12 +9,12 @@ Currently, there are two main files:
 First python code uses class module to store data and run AVL, while the second one is simple python script
 
 The python scripts can iterate through following parameters in AVL:
-  Flight Conditions:
+Flight Conditions:
     1. Velocity
     2. Angle of Attack
     3. Mach number
     
-  Geometry Setup:
+Geometry Setup:
     1. Number of chordwise panels for wing
     2. Number of spanwise panels for wing
     3. Number of chordwise panels for horizontal tail
