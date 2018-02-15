@@ -12,7 +12,7 @@ if __name__ == '__main__':
 	x.AddFileInfo('Directory', dir_name)
 
 	# Speicfy command to run AVL
-	avl_cmd = '/home/kharad/Code/avl'
+	avl_cmd = 'avl'
 	x.AddFileInfo('AVL_CMD', avl_cmd)
 	
 	# Geometry file (and mass file if ncessary)
