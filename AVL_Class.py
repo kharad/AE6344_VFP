@@ -109,7 +109,7 @@ class Aircraft_AVL:
 			sys.exit("Please specify directory/AVL command/template geometry file!!!")
 
 		# Open file to store conditions for different run cases
-		with open(self.__run_info, 'wb') as csvfile:
+		with open(self.__run_info, 'w') as csvfile:
 			writer = csv.writer(csvfile, delimiter=',')
 			writer.writerow(['Run #', 'Nchord Wing', 'Nspan Wing', 'Nchord HT', 'Nspan HT', 'Velocity', 'Mach', 'AOA'])
 
