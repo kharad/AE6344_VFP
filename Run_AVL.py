@@ -26,7 +26,7 @@ if __name__ == '__main__':
 	# x.UpdateFlyingCond('Mach', np.linspace(0, 0.9, 10))
 
 	# Geometry Variables
-	x.UpdateGeometry('NChord_Wing', [5, 10, 15])
+	x.UpdateGeometry('NChord_Wing', [5, 10, 150])
 	# x.UpdateGeometry('NSpan_Wing', [25, 30, 35])
 	# x.UpdateGeometry('NChord_HT', [5, 10, 15])
 	# x.UpdateGeometry('NSpan_HT', [15, 20, 25])
