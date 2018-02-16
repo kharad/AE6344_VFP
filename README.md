@@ -1,6 +1,8 @@
 # AE6344_VFP
 Repository for VFP - AVL model
 
+Before running python code, make sure avl.exe is in the main folder where the python codes are located
+
 Python based code that runs AVL model and obtains cp data
 Currently, there are two main files:
   1. Run_AVL.py
