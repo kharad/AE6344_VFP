@@ -110,7 +110,7 @@ class Aircraft_AVL:
 
 		# Open file to store conditions for different run cases
 		with open(self.__run_info, 'w') as csvfile:
-			writer = csv.writer(csvfile, delimiter=',',lineterminator = '\n')
+			writer = csv.writer(csvfile, delimiter=',', lineterminator = '\n')
 			writer.writerow(['Run #', 'Nchord Wing', 'Nspan Wing', 'Nchord HT', 'Nspan HT', 'Velocity', 'Mach', 'AOA'])
 
 			self.Loop_AVL_Geometry(writer)
@@ -208,7 +208,7 @@ class Aircraft_AVL:
 			cd_data = self.__fe_file + str(run) + '.csv'
 
 			with open(cd_data, 'w') as fout:
-				writer = csv.writer(fout, delimiter=',',lineterminator = '\n')
+				writer = csv.writer(fout, delimiter=',', lineterminator = '\n')
 				writer.writerow(['X', 'Y', 'Z', 'dCp'])
 
 				with open(self.__fe_file + str(run) + '.fe', 'r') as fin:
