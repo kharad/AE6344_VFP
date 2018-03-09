@@ -10,7 +10,7 @@ class Aircraft_AVL:
 		# Flying condition
 		self.__alpha = [0]
 		self.__Mach = [0]
-		self.__Vel = [12]
+		self.__Vel = [0]
 
 		# Geometry setup
 		self.__NC_W = [10]
@@ -68,8 +68,10 @@ class Aircraft_AVL:
 			self.__run_file = val + '/AVL_Run_Case.run'
 			self.__run_info = val + '/Run_Info.csv'
 			self.__fe_file = val + '/FE_run_'
-		elif key == 'Geometry':
+		elif key == 'Geometry_Template':
 			self.__geo_temp = val
+		elif key == 'Geometry':
+			self.__geo_file = val
 		elif key == 'Mass':
 			self.__mass_file = val
 		elif key == 'AVL_CMD':
@@ -97,6 +99,26 @@ class Aircraft_AVL:
 		print("NSpa for HorTail: " + ', '.join(str(x) for x in self.__NS_HT) + '\n')
 
 		print("Number of cases to run: %d\n" % self.__num_run)
+
+	# Run AVL using given geometry file
+	def RunAVLwithGeoFile(self):
+		# Check if directory, avl cmd or geometry file is specified
+		try:
+			self.__dir_name[0]
+			self.__avl_cmd[0]
+			self.__geo_file[0]
+		except IndexError:
+			sys.exit("Please specify directory/AVL command/template geometry file!!!")
+
+		# Open file to store conditions for different run cases
+		with open(self.__run_info, 'w') as csvfile:
+			writer = csv.writer(csvfile, delimiter=',', lineterminator = '\n')
+			writer.writerow(['Run #', 'Velocity', 'Mach', 'AOA'])
+
+			run_num = [1]
+			out_str = []
+			self.Loop_AVL_FlyingCond(writer, run_num, out_str)
+			self.Run_AVL()
 
 	# Create geometry files and run AVL
 	def Prepare_and_Run_AVL(self):
@@ -215,8 +237,8 @@ class Aircraft_AVL:
 					for content in fin:
 						temp = content.split()
 						if temp and (Check_Num(temp[0]) or temp[0] == '***'):
-							x = float(temp[1])
-							y = float(temp[2])
-							z = float(temp[3])
-							cp = float(temp[6])
+							x = float(temp[1]) if Check_Num(temp[1]) else float('nan')
+							y = float(temp[2]) if Check_Num(temp[2]) else float('nan')
+							z = float(temp[3]) if Check_Num(temp[3]) else float('nan')
+							cp = float(temp[6]) if Check_Num(temp[6]) else float('nan')
 							writer.writerow(['%0.8f' % x, '%0.8f' % y, '%0.8f' % z, '%0.8f' % cp])

@@ -1,0 +1,30 @@
+load Geo_File.avl
+oper
+m
+v 12.00000000
+mn 0.00000000
+
+a a -2.00000000
+x
+fe
+Test/FE_run_1.fe
+a a -1.00000000
+x
+fe
+Test/FE_run_2.fe
+a a 0.00000000
+x
+fe
+Test/FE_run_3.fe
+a a 1.00000000
+x
+fe
+Test/FE_run_4.fe
+a a 2.00000000
+x
+fe
+Test/FE_run_5.fe
+
+
+
+quit

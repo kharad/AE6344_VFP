@@ -1,0 +1,211 @@
+# Aircraft For Example
+
+#======================================================
+#------------------- Geometry File --------------------
+#======================================================
+# AVL Conventions
+# SI Used: m, kg, etc
+
+# case title
+Example Case
+
+# Mach
+0.80
+
+# iYsym iZsym Zsym
+0 0 0
+
+# Sref(Planform Wing area) Cref(cbar) Bref(wing span)
+1.858 0.697 2.667
+
+# Xcg Ycg Zcg
+0.090 0.000 0.000
+
+# CDp (optional)
+0.0108
+
+#======================================================
+#--------------------- Main Wing ----------------------
+#======================================================
+SURFACE
+Main Wing
+# Nchord Cspace [ Nspan Sspace ]
+10 1.00 30 -2.0
+
+INDEX
+4858
+
+YDUPLICATE
+0.0
+
+SCALE
+# Xscale Yscale Zscale
+1.0 1.0 1.0
+
+ANGLE
+# dAinc
+0.0
+
+TRANSLATE
+# dX dY dZ
+0.0 0.0 0.0
+
+#_______
+SECTION
+# Xle Yle Zle Chord Ainc [ Nspan Sspace ]
+0.0000 0.0000 0.0000 0.6967 2.0 4 1
+
+AFILE
+Airfoils/E420.txt
+
+#_______
+SECTION
+# Xle Yle Zle Chord Ainc [ Nspan Sspace ]
+0.0000 0.7468 0.0000 0.6967 2.0 4 1
+
+AFILE
+Airfoils/E420.txt
+
+CONTROL
+# name gain Xhinge VYZhvec SgnDup
+Aileron -1.00 0.75 0 1 0 -2.00
+
+#_______
+SECTION
+# Xle Yle Zle Chord Ainc [ Nspan Sspace ]
+0.0000 1.2802 0.0000 0.6967 2.0 4 1
+
+AFILE
+Airfoils/E420.txt
+
+CONTROL
+# name gain Xhinge VYZhvec SgnDup
+Aileron -1.00 0.75 0 1 0 -2.00
+
+#_______
+SECTION
+# Xle Yle Zle Chord Ainc [ Nspan Sspace ]
+0.0000 1.3335 0.0000 0.6967 2.0 4 1
+
+AFILE
+Airfoils/E420.txt
+
+#======================================================
+#------------------- Horizontal Tail ------------------
+#======================================================
+SURFACE
+Horizontal Tail
+# Nchord Cspace [ Nspan Sspace ]
+10 1.00 20 2.0
+
+INDEX
+2
+
+YDUPLICATE
+0.0
+
+SCALE
+# Xscale Yscale Zscale
+1.0 1.0 1.0
+
+ANGLE
+# dAinc
+-2.0
+
+TRANSLATE
+# dX dY dZ
+0.0 0.0 0.0
+
+#_______
+SECTION
+# Xle Yle Zle Chord Ainc [ Nspan Sspace ]
+0.9053 0.0000 0.0000 0.3418 0.0 7 1
+
+NACA
+# section NACA camberline
+0012
+
+CLAF
+# dCL/da scaling factor (dcl/da = 2*pi*CLAF)
+1.1078
+
+CONTROL
+# name gain Xhinge VYZhvec SgnDup
+Elevator -1.00 0.50 0 1 0 1.00
+
+#_______
+SECTION
+# Xle Yle Zle Chord Ainc [ Nspan Sspace ]
+0.9053 0.8289 0.0000 0.3418 0.0 7 1
+
+NACA
+# section NACA camberline
+0012
+
+CLAF
+# dCL/da scaling factor (dcl/da = 2*pi*CLAF)
+1.1078
+
+CONTROL
+# name gain Xhinge VYZhvec SgnDup
+Elevator -1.00 0.50 0 1 0 1.00
+
+#======================================================
+#------------------- Vertical Tail --------------------
+#======================================================
+SURFACE
+Vertical Tail
+# Nchord Cspace [ Nspan Sspace ]
+10 1.00 10 -2.0
+
+INDEX
+4861
+
+YDUPLICATE
+0.0
+
+SCALE
+# Xscale Yscale Zscale
+1.0 1.0 1.0
+
+ANGLE
+# dAinc
+0.0
+
+TRANSLATE
+# dX dY dZ
+0.0 0.0 0.0
+
+#_______
+SECTION
+# Xle Yle Zle Chord Ainc [ Nspan Sspace ]
+0.9053 0.8289 -0.0570 0.3418 0.0 7 1
+
+NACA
+# section NACA camberline
+0012
+
+CLAF
+# dCL/da scaling factor (dcl/da = 2*pi*CLAF)
+1.1078
+
+CONTROL
+# name gain Xhinge VYZhvec SgnDup
+Rudder 1.00 0.50 0 0 1 -1.00
+
+#_______
+SECTION
+# Xle Yle Zle Chord Ainc [ Nspan Sspace ]
+0.9053 0.8289 0.1710 0.3418 0.0 7 1
+
+NACA
+# section NACA camberline
+0012
+
+CLAF
+# dCL/da scaling factor (dcl/da = 2*pi*CLAF)
+1.1078
+
+CONTROL
+# name gain Xhinge VYZhvec SgnDup
+Rudder 1.00 0.50 0 0 1 -1.00
